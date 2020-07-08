@@ -3,4 +3,4 @@ pymongo
 flask
 flask-cors
 bcrypt
-wsgi
+gunicorn
