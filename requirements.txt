@@ -1,0 +1,6 @@
+dnspython
+pymongo
+flask
+flask-cors
+bcrypt
+wsgi
