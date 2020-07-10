@@ -12,7 +12,7 @@ from bcrypt import hashpw
 from bcrypt import gensalt
 from dotenv import load_dotenv
 from pymongo import MongoClient
-
+from flask_api import status
 
 load_dotenv()
 app = Flask(__name__)
@@ -67,11 +67,11 @@ def register():
                         'dob': dob
                     })
                     return jsonify({"result": 'User added!'})
-                return jsonify({"result": 'Error 5: Please agree the license agreement'})
-                # return jsonify({"result": 'Error 4: passwords do not match'})
-            return jsonify({"result": 'Error 3: Set stronger password with atleast 6 characters'})
+                return jsonify({"result": 'Error 5: Please agree the license agreement'}), status.HTTP_400_BAD_REQUEST
+                # return jsonify({"result": 'Error 4: passwords do not match'}), status.HTTP_400_BAD_REQUEST
+            return jsonify({"result": 'Error 3: Set stronger password with atleast 6 characters'}), status.HTTP_400_BAD_REQUEST
         return jsonify({"result": 'Error 2: That _id already exists!'})
-    return jsonify({"result": "Error 1: post registration details"})
+    return jsonify({"result": "Error 1: post registration details"}), status.HTTP_400_BAD_REQUEST
 
 
 @app.route('/login', methods=['POST'])
@@ -90,6 +90,7 @@ def login():
             if hashpw(password.encode('utf-8'), user_pass) == user_pass:
                 return_json["success"] = True
                 return_json["message"] = "Authentication success!"
+                return jsonify({"result": return_json})
             else:
                 return_json["success"] = False
                 return_json["errors"] = "Error! Invalid Credintials! "
@@ -99,7 +100,7 @@ def login():
     else:
         return_json["success"] = False
         return_json["errors"] = "Error! use post requests and send json! "
-    return jsonify({"result": return_json})
+    return jsonify({"result": return_json}), status.HTTP_400_BAD_REQUEST
 
 
 @app.route('/meds', methods=['GET'])
