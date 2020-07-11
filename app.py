@@ -3,6 +3,9 @@ backend simple server for the pharmacy app med-hub
 """
 
 import os
+from flask import redirect
+from flask import url_for
+from flask import flash
 from flask import Flask
 from flask import jsonify
 from flask import request
@@ -22,6 +25,7 @@ client = MongoClient(os.getenv('MC'))
 mydb = client["pharmacy"]
 medicine = mydb["medicine"]
 users = mydb["users"]
+app.secret_key = "blah"
 
 
 @app.route('/', methods=['GET'])
@@ -107,6 +111,19 @@ def login():
 def get_all_medicine():
     """ get all medicines """
     return jsonify({"result": list(medicine.find())})
+
+
+@app.route('/vendor_login', methods=['POST'])
+def vendor_login():
+    """ get all medicines """
+    if request.method == 'POST':
+        if request.form['username'] == 'admin':
+            if request.form['password'] == 'admin':
+                print("boom")
+                return redirect(url_for('addmedicine'))
+
+    flash('Login error! please check you credintials.')
+    return redirect(url_for('index'))
 
 
 @app.route('/med', methods=['GET', 'POST'])
