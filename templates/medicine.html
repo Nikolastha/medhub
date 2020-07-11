@@ -1,18 +1,185 @@
-<html>
-   <body>
-      <form action = "http://localhost:5000/addmedicine_post" method = "POST">
-         <p>ID <input type = "number" name = "id" /></p>
+<!DOCTYPE html>
 
-         <p>Technical Name<input type = "text" name = "technical_name" /></p>
-         <p>Common Name<input type = "text" name = "common_name" /></p>
-         <p>price <input type = "number" name = "price" /></p>
-         <p>Schedule <input type ="text" name = "schedule" /></p>
-         <p>Description <input type ="text" name = "description" /></p>
-         <p>Prescription <input type ="text" name = "prescription" /></p>
-         <p>Company <input type ="text" name = "company" /></p>
-         <p>Image URL <input type ="text" name = "image_url" /></p>
-         <p><input type = "submit" value = "submit" /></p>
-         
-      </form>
-   </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="../../../../favicon.ico">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <title>Vendor app</title>
+
+  <!-- Bootstrap core CSS -->
+  <!-- <link href="../../css/editor.css" rel="stylesheet"> -->
+
+  <!-- Custom styles for this template -->
+  <link href="narrow-jumbotron.css" rel="stylesheet">
+  <style>
+    @import url("https://fonts.googleapis.com/css?family=Spartan&display=swap");
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/38816/image-from-rawpixel-id-2044837-jpeg.jpg") center center no-repeat;
+        /* background-size: cover; */
+        width: 100vw;
+        height: 100vh;
+        display: grid;
+        align-items: center;
+        justify-items: center;
+        font-size: 12pt;
+        font-family: "Spartan";
+        color: #2A293E;
+    }
+
+    .contact-us {
+        background: #faf7ee;
+        padding: 50px 100px;
+        border-top: 10px solid #f45702;
+    }
+
+    label,
+    input,
+    textarea {
+        display: block;
+        width: 100%;
+        font-size: 12pt;
+        line-height: 24pt;
+        font-family: "Spartan";
+    }
+
+    input {
+        margin-bottom: 24pt;
+    }
+
+    h3 {
+        font-weight: normal;
+        font-size: 10pt;
+        line-height: 24pt;
+        font-style: italic;
+        margin: 0 0 0.5em 0;
+    }
+
+    span {
+        font-size: 8pt;
+    }
+
+    em {
+        color: #f45702;
+        font-weight: bold;
+    }
+
+    input,
+    textarea {
+        border: none;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 2px;
+        background: #f8f4e5;
+        padding-left: 5px;
+        outline: none;
+    }
+
+    input:focus,
+    textarea:focus {
+        border: 1px solid #6bd4b1;
+    }
+
+    textarea {
+        resize: none;
+    }
+
+    .button {
+        display: block;
+        float: right;
+        line-height: 24pt;
+        padding: 0 20px;
+        border: none;
+        background: #f45702;
+        color: white;
+        letter-spacing: 2px;
+        transition: 0.2s all ease-in-out;
+        border-bottom: 2px solid transparent;
+        outline: none;
+    }
+
+    .button:hover {
+        background: inherit;
+        color: #f45702;
+        border-bottom: 2px solid #f45702;
+    }
+
+    ::selection {
+        background: #ffc7b8;
+    }
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    textarea:-webkit-autofill,
+    textarea:-webkit-autofill:hover,
+    textarea:-webkit-autofill:focus {
+        border: 1px solid #6bd4b1;
+        -webkit-text-fill-color: #2A293E;
+        -webkit-box-shadow: 0 0 0px 1000px #f8f4e5 inset;
+        transition: background-color 5000s ease-in-out 0s;
+    }
+</style>
+</head>
+
+<body>
+    <div class="contact-us">
+      <form action = "http://localhost:5000/addmedicine_post" method = "POST">
+
+            <!-- <label for="customerPhone">PHONE</label>
+            <input id="customerPhone" name="customerPhone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" type="tel" /> -->
+
+
+            <label for="customerName"> ID <em>&#x2a;</em></label>
+            <input id="customerName" name="id" required="" type="number" />
+
+            <label for="customerName"> COMMON NAME <em>&#x2a;</em></label>
+            <input id="customerName" name="common_name" required="" type="text" />
+
+            <label for="customerName"> COMPLEX NAME <em>&#x2a;</em></label>
+            <input id="customerName" name="technical_name" required="" type="text" />
+
+            <label for="customerName"> PRICE <em>&#x2a;</em></label>
+            <input id="customerName" name="price" required="" type="number" />
+
+        <label for="customerEmail"> SCHEDULE <em>&#x2a;</em></label>
+        <input id="customerEmail" name="schedule" type="text" />
+
+
+        <!-- <label for="customerPhone">PHONE</label>
+            <input id="customerPhone" name="customerPhone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" type="tel" /> -->
+
+
+        <label for="orderNumber"> PRESCRIPTION</label>
+        <input id="orderNumber" name="prescription" type="text" />
+
+
+        <labelfor="customerNote"> DESCRIPTION <em>&#x2a;</em></label>
+            <textarea id="customerNote" name="description" required="" rows="4"></textarea>
+
+            <label for="orderNumber"> COMPANY </label>
+            <input id="orderNumber" name="company" type="text" />
+
+            <h3>
+                Please provide all information!.
+            </h3>
+
+            <label for="spamProtection"> IMAGE URL <em>&#x2a; </em><span>&nbsp;&nbsp;&nbsp;&nbsp;URL of the
+                    image</span></label>
+            <input id="spamProtection" name="image_url" type="text" />
+
+            <!-- <button id="customerOrder" value="submit">SUBMIT</button> -->
+            <input class="button" type="submit" value="submit" />
+            </form>
+    </div>
+</body>
+
 </html>
