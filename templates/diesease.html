@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <title>Add Diesease</title>
+
+    <!-- Bootstrap core CSS -->
+    <!-- <link href="../../css/editor.css" rel="stylesheet"> -->
+
+    <!-- Custom styles for this template -->
+    <link href="narrow-jumbotron.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="static/forms.css"> -->
+    <link rel="stylesheet" type="text/css" href="static/forms.css">
+</head>
+
+<body>
+    <div class="contact-us">
+        <form action="{{ url_for('addmedicine_post')}}" method="POST">
+
+            <!-- <label for="customerPhone">PHONE</label>
+        <input id="customerPhone" name="customerPhone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" type="tel" /> -->
+
+
+            <label for="customerName"> ID <em>&#x2a;</em></label>
+            <input id="customerName" name="id" required="" type="number" />
+
+            <label for="customerName"> NAME <em>&#x2a;</em></label>
+            <input id="customerName" name="name" required="" type="text" />
+
+            <label for="customerName"> DOCTOR <em>&#x2a;</em></label>
+            <input id="customerName" name="doctor" required="" type="text" />
+
+            <labelfor="customerNote"> SUMMARY <em>&#x2a;</em></label>
+                <textarea id="customerNote" name="summary" required="" rows="4"></textarea>
+
+                <labelfor="customerNote"> CAUSES <em>&#x2a;</em></label>
+                    <textarea id="customerNote" name="causes" required="" rows="4"></textarea>
+
+                    <labelfor="customerNote"> SYMPTOMS <em>&#x2a;</em></label>
+                        <textarea id="customerNote" name="symptoms" required="" rows="4"></textarea>
+
+
+                        <input class="button" type="submit" value="submit" />
+        </form>
+        <form action="{{ url_for('dashboard') }}">
+            <button class="button" type="submit">Go back</button>
+        </form>
+    </div>
+</body>
+
+</html>

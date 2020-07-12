@@ -23,6 +23,8 @@ CORS(app)
 app.config['MONGO_DBNAME'] = 'mongo'
 client = MongoClient(os.getenv('MC'))
 mydb = client["pharmacy"]
+diesease = mydb["diesease"]
+specalist = mydb["specalist"]
 medicine = mydb["medicine"]
 users = mydb["users"]
 app.secret_key = "blah"
@@ -107,6 +109,18 @@ def login():
     return jsonify({"result": return_json}), status.HTTP_400_BAD_REQUEST
 
 
+@app.route('/specalists', methods=['GET'])
+def get_all_specalist():
+    """ get all specalists """
+    return jsonify({"result": list(specalist.find())})
+
+
+@app.route('/dieseases', methods=['GET'])
+def get_all_diesease():
+    """ get all dieseases """
+    return jsonify({"result": list(diesease.find())})
+
+
 @app.route('/meds', methods=['GET'])
 def get_all_medicine():
     """ get all medicines """
@@ -119,11 +133,15 @@ def vendor_login():
     if request.method == 'POST':
         if request.form['username'] == 'admin':
             if request.form['password'] == 'admin':
-                print("boom")
-                return redirect(url_for('addmedicine'))
+                return redirect(url_for('dashboard'))
 
     flash('Login error! please check you credintials.')
     return redirect(url_for('index'))
+
+
+@app.route('/dashboard', methods=['GET'])
+def dashboard():
+    return render_template('dashboard.html')
 
 
 @app.route('/med', methods=['GET', 'POST'])
@@ -135,13 +153,71 @@ def get_one_med():
         output = search_medicine
     else:
         output = "No such name Err1" + str(common_name)
-    return jsonify({'result': output})
+        flash(output)
+    render_template('dashboard.html')
+
+
+@app.route('/addspecalist')
+def addspecalist():
+    """ add a new specalist using a webform """
+    return render_template('specalist.html')
+
+
+@app.route('/adddiesease')
+def adddiesease():
+    """ add a new specalist using a webform """
+    return render_template('diesease.html')
 
 
 @app.route('/addmedicine')
 def addmedicine():
     """ add a new medicine using a webform """
     return render_template('medicine.html')
+
+
+@app.route('/adddiesease_post', methods=['POST', 'GET'])
+def adddiesease_post():
+    """ post requst which will add the posted json to diesease collection"""
+    if request.method == 'POST':
+        diesease_dict = {
+            '_id': request.form['id'],
+            'name': request.form['name'],
+            'doctor': request.form['doctor'],
+            'summary': request.form['summary'],
+            'causes': request.form['causes'],
+            'symptoms': request.form['symptoms']
+        }
+        diesease.insert_one(diesease_dict)
+        output = "Diesease added!"
+        flash(output)
+        return render_template('dashboard.html')
+
+    else:
+        output = "Some error"
+        flash(output)
+        return render_template('dashboard.html')
+
+
+@app.route('/addspecalist_post', methods=['POST', 'GET'])
+def addspecalist_post():
+    """ post requst which will add the posted json to specalist collection"""
+    if request.method == 'POST':
+        specalist_dict = {
+            '_id': request.form['id'],
+            'name': request.form['name'],
+            'specalization': request.form['specalization'],
+            'phone': request.form['phone'],
+            'designation': request.form['designation']
+        }
+        specalist.insert_one(specalist_dict)
+        output = "Specalist added!"
+        flash(output)
+        return render_template('dashboard.html')
+
+    else:
+        output = "Some error"
+        flash(output)
+        return render_template('dashboard.html')
 
 
 @app.route('/addmedicine_post', methods=['POST', 'GET'])
@@ -161,10 +237,13 @@ def addmedicine_post():
         }
         medicine.insert_one(medicine_dict)
         output = "Medicine added!"
+        flash(output)
+        return render_template('dashboard.html')
 
     else:
         output = "Some error"
-    return jsonify({'result': str(output)})
+        flash(output)
+        return render_template('dashboard.html')
 
 
 if __name__ == '__main__':

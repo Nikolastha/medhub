@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <title>Vendor Dashboard</title>
+
+    <!-- Bootstrap core CSS -->
+    <!-- <link href="../../css/editor.css" rel="stylesheet"> -->
+
+    <!-- Custom styles for this template -->
+    <link href="narrow-jumbotron.css" rel="stylesheet">
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=Merriweather|Poppins&display=swap");
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        .container {
+            margin: 75px auto;
+            width: 1000px;
+            padding: 50px;
+            text-align: center;
+            background-color: #0b1a33;
+            background-image: linear-gradient(180deg, #0b1a33 70%, #e8c3be 70%);
+            font-family: "Poppins", sans-serif;
+        }
+
+        header h1 {
+            color: #fdfdfd;
+            font-size: 2em;
+            margin-bottom: 0.25em;
+            font-family: "Merriweather", serif;
+        }
+
+        header h2 {
+            font-size: 1em;
+            color: #A1A0A1;
+            width: 500px;
+            margin: 0 auto;
+        }
+
+        header ul li {
+            display: inline-block;
+            background: #BC2E3C;
+            margin: 2em 0;
+            width: 100px;
+            height: 50px;
+            line-height: 50px;
+            border: 2px solid #BC2E3C;
+            color: #fdfdfd;
+        }
+
+        header ul li:last-of-type {
+            background: none;
+            margin-left: -4px;
+            border: 2px solid #BC2E3C;
+            color: #fdfdfd;
+        }
+
+        header ul li:last-of-type:hover {
+            background: #BC2E3C;
+        }
+
+        content {
+            display: grid;
+            grid-template-areas: "1 2 3";
+            justify-content: space-around;
+            grid-column-gap: 20px;
+        }
+
+        content section {
+            text-align: center;
+            border-radius: 5px;
+            padding: 40px;
+            width: 300px;
+            background: #fdfdfd;
+        }
+
+        content section i {
+            margin-bottom: 0.5em;
+            font-size: 3.5em;
+            color: #020110;
+        }
+
+        content section br {
+            display: inline-block;
+            width: 100px;
+            height: 2px;
+            background: #BC2E3C;
+            content: "";
+            margin-bottom: 1em;
+        }
+
+        content section h2 {
+            font-size: 0.9em;
+            margin-bottom: 2em;
+            color: #A1A0A1;
+        }
+
+        content section h2:first-of-type {
+            margin-bottom: 1em;
+            color: #020110;
+            font-family: "Merriweather", serif;
+        }
+
+        content section h1 {
+            font-size: 1.5em;
+            margin-bottom: 2em;
+            color: #020110;
+            font-family: "Merriweather", serif;
+        }
+
+        content section button {
+            width: 100%;
+            padding: 10px 0;
+            border: none;
+            outline: none;
+            background: #BC2E3C;
+            color: #fdfdfd;
+            font-size: 0.8em;
+        }
+
+        content section button:hover {
+            background: #dd737e;
+            transition: 0.1s all ease-in-out;
+        }
+    </style>
+</head>
+
+<body>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-info" role="alert"
+        style="align-items: center; text-align: center; margin-bottom: -20px; z-index: 10;">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="container">
+        <header>
+            <h1>
+                Dashboard
+            </h1>
+            <h2>
+                Add a new entry, use the provided forms to add dieseases, medicine and specalists.
+            </h2>
+            <nav>
+                <ul>
+                    <li id="monthly" onclick="monthly();">
+                        Hide Stats
+                    </li>
+                    <li id="yearly" onclick="yearly();">
+                        View Stats
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <content>
+            <section class="choice1">
+                <i class="fab fa-wordpress-simple"></i>
+                <h2>
+                    Disease
+                </h2>
+                <br />
+                <h1 id="wordpress">
+                    .
+                </h1>
+                <h2>
+                    Cause
+                </h2>
+                <h2>
+                    Symptoms
+                </h2>
+                <h2>
+                    Specalist
+                </h2>
+                <h2>
+                    Summary
+                </h2>
+                <form action="{{ url_for('adddiesease') }}">
+                    <button type="submit">ADD DISEASE</button>
+                </form>
+            </section>
+            <section class="choice2">
+                <i class="fas fa-database"></i>
+                <h2>
+                    Medicine
+                </h2>
+                <br />
+                <h1 id="shared">
+                    .
+                </h1>
+                <h2>
+                    Medicine
+                </h2>
+                <h2>
+                    Price
+                </h2>
+                <h2>
+                    Details
+                </h2>
+                <h2>
+                    Disease
+                </h2>
+                <form action="{{ url_for('addmedicine') }}">
+                    <button type="submit">ADD MEDICINE</button>
+                </form>
+            </section>
+            <section class="choice3">
+                <i class="fas fa-server"></i>
+                <h2>
+                    Specalist
+                </h2>
+                <br />
+                <h1 id="vps">
+                    .
+                </h1>
+                <h2>
+                    Specalization
+                </h2>
+                <h2>
+                    Contact
+                </h2>
+                <h2>
+                    Designation
+                </h2>
+                <h2>
+                    -
+                </h2>
+                <form action="{{ url_for('addspecalist') }}">
+                    <button type="submit">ADD SPECALIST</button>
+                </form>
+            </section>
+        </content>
+    </div>
+    <script>
+        function monthly() {
+
+            //Background for yearly button back to blue 
+            document.getElementById("yearly").style.background = "#0b1a33";
+            //Background for monthly button back to pink
+            document.getElementById("monthly").style.background = "#bc2e3c";
+
+            //Change to monthly prices
+            document.getElementById("wordpress").innerHTML = ".";
+            document.getElementById("shared").innerHTML = ".";
+            document.getElementById("vps").innerHTML = ".";
+        }
+
+        function yearly() {
+
+            //Background for yearly button back to blue
+            document.getElementById("monthly").style.background = "#0b1a33";
+            //Background for monthly button back to pink
+            document.getElementById("yearly").style.background = "#bc2e3c";
+
+            //Change to monthly prices
+            document.getElementById("wordpress").innerHTML = "3 records";
+            document.getElementById("shared").innerHTML = "4 records.";
+            document.getElementById("vps").innerHTML = "1 records";
+        }
+    </script>>
+</body>
