@@ -199,7 +199,7 @@ def adddisease_post():
     else:
         output = "Some error"
         flash(output)
-        return render_template('dashboard.html'), status.HTTP_400_BAD_REQUEST
+        return render_template('dashboard.html')
 
 
 @app.route('/addspecialist_post', methods=['POST', 'GET'])
@@ -224,7 +224,7 @@ def addspecialist_post():
         print("error")
         output = "Some error"
         flash(output)
-        return render_template('dashboard.html'), status.HTTP_400_BAD_REQUEST
+        return render_template('dashboard.html')
 
 
 @app.route('/addmedicine_post', methods=['POST', 'GET'])
@@ -250,7 +250,7 @@ def addmedicine_post():
     else:
         output = "Some error"
         flash(output)
-        return render_template('dashboard.html'), status.HTTP_400_BAD_REQUEST
+        return render_template('dashboard.html')
 
 
 if __name__ == '__main__':
