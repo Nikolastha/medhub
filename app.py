@@ -213,12 +213,15 @@ def addspecialist_post():
             'phone': request.form['phone'],
             'designation': request.form['designation']
         }
+        print(specialist_dict)
         specialist.insert_one(specialist_dict)
         output = "Specialist added!"
         flash(output)
+        print("success")
         return render_template('dashboard.html')
 
     else:
+        print("error")
         output = "Some error"
         flash(output)
         return render_template('dashboard.html'), status.HTTP_400_BAD_REQUEST
