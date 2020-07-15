@@ -22,18 +22,17 @@ app = Flask(__name__)
 CORS(app)
 app.config['MONGO_DBNAME'] = 'mongo'
 client = MongoClient(os.getenv('MC'))
-mydb = client["pharmacy"]
-diesease = mydb["diesease"]
-specalist = mydb["specalist"]
-medicine = mydb["medicine"]
-users = mydb["users"]
+my_database = client["pharmacy"]
+disease = my_database["disease"]
+specialist = my_database["specialist"]
+medicine = my_database["medicine"]
+users = my_database["users"]
 app.secret_key = "blah"
 
 
 @app.route('/', methods=['GET'])
 def index():
     """ Index page
-
     :return: index page
     :rtype: flask rendertemplate
     """
@@ -73,10 +72,14 @@ def register():
                         'dob': dob
                     })
                     return jsonify({"result": 'User added!'})
-                return jsonify({"result": 'Error 5: Please agree the license agreement'}), status.HTTP_400_BAD_REQUEST
-                # return jsonify({"result": 'Error 4: passwords do not match'}), status.HTTP_400_BAD_REQUEST
-            return jsonify({"result": 'Error 3: Set stronger password with atleast 6 characters'}), status.HTTP_400_BAD_REQUEST
-        return jsonify({"result": 'Error 2: That _id already exists!'})
+                return jsonify(
+                    {"result": 'Error 5: Please agree the license agreement'}
+                ), status.HTTP_400_BAD_REQUEST
+                # return jsonify({"result": 'Error 4: passwords do not match'})
+            return jsonify(
+                {"result": 'Error 3: Set stronger password with at least 6 characters'}
+            ), status.HTTP_400_BAD_REQUEST
+        return jsonify({"result": 'Error 2: That _id already exists!'}), status.HTTP_400_BAD_REQUEST
     return jsonify({"result": "Error 1: post registration details"}), status.HTTP_400_BAD_REQUEST
 
 
@@ -99,29 +102,29 @@ def login():
                 return jsonify({"result": return_json})
             else:
                 return_json["success"] = False
-                return_json["errors"] = "Error! Invalid Credintials! "
+                return_json["errors"] = "Error! Invalid Credentials! "
         else:
             return_json["success"] = False
-            return_json["errors"] = "Error! Invalid Credintials! "
+            return_json["errors"] = "Error! Invalid Credentials! "
     else:
         return_json["success"] = False
         return_json["errors"] = "Error! use post requests and send json! "
     return jsonify({"result": return_json}), status.HTTP_400_BAD_REQUEST
 
 
-@app.route('/specalists', methods=['GET'])
-def get_all_specalist():
-    """ get all specalists """
-    return jsonify({"result": list(specalist.find())})
+@app.route('/specialists', methods=['GET'])
+def get_all_specialist():
+    """ get all specialists """
+    return jsonify({"result": list(specialist.find())})
 
 
-@app.route('/dieseases', methods=['GET'])
-def get_all_diesease():
-    """ get all dieseases """
-    return jsonify({"result": list(diesease.find())})
+@app.route('/diseases', methods=['GET'])
+def get_all_disease():
+    """ get all diseases """
+    return jsonify({"result": list(disease.find())})
 
 
-@app.route('/meds', methods=['GET'])
+@app.route('/medicines', methods=['GET'])
 def get_all_medicine():
     """ get all medicines """
     return jsonify({"result": list(medicine.find())})
@@ -135,12 +138,13 @@ def vendor_login():
             if request.form['password'] == 'admin':
                 return redirect(url_for('dashboard'))
 
-    flash('Login error! please check you credintials.')
-    return redirect(url_for('index'))
+    flash('Login error! please check you credentials.')
+    return redirect(url_for('index')), status.HTTP_400_BAD_REQUEST
 
 
 @app.route('/dashboard', methods=['GET'])
 def dashboard():
+    """Simple dashboard for vendors"""
     return render_template('dashboard.html')
 
 
@@ -154,19 +158,19 @@ def get_one_med():
     else:
         output = "No such name Err1" + str(common_name)
         flash(output)
-    render_template('dashboard.html')
+    render_template('dashboard.html'), status.HTTP_400_BAD_REQUEST
 
 
-@app.route('/addspecalist')
-def addspecalist():
-    """ add a new specalist using a webform """
-    return render_template('specalist.html')
+@app.route('/addspecialist')
+def addspecialist():
+    """ add a new specialist using a webform """
+    return render_template('specialist.html')
 
 
-@app.route('/adddiesease')
-def adddiesease():
-    """ add a new specalist using a webform """
-    return render_template('diesease.html')
+@app.route('/adddisease')
+def adddisease():
+    """ add a new specialist using a webform """
+    return render_template('disease.html')
 
 
 @app.route('/addmedicine')
@@ -175,11 +179,11 @@ def addmedicine():
     return render_template('medicine.html')
 
 
-@app.route('/adddiesease_post', methods=['POST', 'GET'])
-def adddiesease_post():
-    """ post requst which will add the posted json to diesease collection"""
+@app.route('/adddisease_post', methods=['POST', 'GET'])
+def adddisease_post():
+    """ post request which will add the posted json to disease collection"""
     if request.method == 'POST':
-        diesease_dict = {
+        disease_dict = {
             '_id': request.form['id'],
             'name': request.form['name'],
             'doctor': request.form['doctor'],
@@ -187,42 +191,42 @@ def adddiesease_post():
             'causes': request.form['causes'],
             'symptoms': request.form['symptoms']
         }
-        diesease.insert_one(diesease_dict)
-        output = "Diesease added!"
+        disease.insert_one(disease_dict)
+        output = "disease added!"
         flash(output)
         return render_template('dashboard.html')
 
     else:
         output = "Some error"
         flash(output)
-        return render_template('dashboard.html')
+        return render_template('dashboard.html'), status.HTTP_400_BAD_REQUEST
 
 
-@app.route('/addspecalist_post', methods=['POST', 'GET'])
-def addspecalist_post():
-    """ post requst which will add the posted json to specalist collection"""
+@app.route('/addspecialist_post', methods=['POST', 'GET'])
+def addspecialist_post():
+    """ post request which will add the posted json to specialist collection"""
     if request.method == 'POST':
-        specalist_dict = {
+        specialist_dict = {
             '_id': request.form['id'],
             'name': request.form['name'],
-            'specalization': request.form['specalization'],
+            'specialization': request.form['specialization'],
             'phone': request.form['phone'],
             'designation': request.form['designation']
         }
-        specalist.insert_one(specalist_dict)
-        output = "Specalist added!"
+        specialist.insert_one(specialist_dict)
+        output = "Specialist added!"
         flash(output)
         return render_template('dashboard.html')
 
     else:
         output = "Some error"
         flash(output)
-        return render_template('dashboard.html')
+        return render_template('dashboard.html'), status.HTTP_400_BAD_REQUEST
 
 
 @app.route('/addmedicine_post', methods=['POST', 'GET'])
 def addmedicine_post():
-    """ post requst which will add the posted json to medicine collection"""
+    """ post request which will add the posted json to medicine collection"""
     if request.method == 'POST':
         medicine_dict = {
             'technical_name': request.form['technical_name'],
@@ -243,7 +247,7 @@ def addmedicine_post():
     else:
         output = "Some error"
         flash(output)
-        return render_template('dashboard.html')
+        return render_template('dashboard.html'), status.HTTP_400_BAD_REQUEST
 
 
 if __name__ == '__main__':
