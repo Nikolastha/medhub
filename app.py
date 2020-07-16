@@ -161,6 +161,28 @@ def get_one_med():
     render_template('dashboard.html'), status.HTTP_400_BAD_REQUEST
 
 
+@app.route('/specialist', methods=['GET', 'POST'])
+def get_one_specialist():
+    "get the details of doctor specified"
+    post_data = request.json
+    specialists_list = post_data["specialists"]
+    specialists_return_list = []
+    for i in specialists_list:
+        specialists_return_list.append(specialist.find_one({'_id': i}))
+        
+    return jsonify({"result": specialists_return_list})
+
+
+    # common_name = request.args.get('common_name')
+    # search_medicine = medicine.find_one({'common_name': common_name})
+    # if search_medicine:
+    #     output = search_medicine
+    # else:
+    #     output = "No such name Err1" + str(common_name)
+    #     flash(output)
+    # render_template('dashboard.html'), status.HTTP_400_BAD_REQUEST
+
+
 @app.route('/addspecialist')
 def addspecialist():
     """ add a new specialist using a webform """
